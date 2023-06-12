@@ -1,0 +1,28 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "server track-my-location",
+  "main": "main.ts",
+  "private": true,
+  "scripts": {
+    "dev": "rspack build --watch",
+    "start": "nodemon dist/main.js",
+    "build": "rspack build"
+  },
+  "dependencies": {
+    "@nestjs/common": "^9.4.2",
+    "@nestjs/core": "^9.4.2",
+    "@nestjs/platform-express": "^9.4.2",
+    "kafkajs": "^2.2.4",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.1"
+  },
+  "sideEffects": false,
+  "author": "pqhuy",
+  "license": "ISC",
+  "devDependencies": {
+    "@rspack/cli": "^0.2.1",
+    "@types/kafkajs": "^1.9.0",
+    "nodemon": "^2.0.22"
+  }
+}
