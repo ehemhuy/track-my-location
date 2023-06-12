@@ -2,25 +2,28 @@ import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { Consumer, EachMessageHandler, Kafka } from "kafkajs";
 import * as fs from "fs";
 import * as path from "path";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class ConsumerService implements OnModuleInit, OnModuleDestroy {
     private consumer: Consumer;
     private kafkaServer: Kafka;
 
-    constructor() {
+    constructor(private configService: ConfigService) {
         this.kafkaServer = new Kafka({
             clientId: "my-app",
-            brokers: ["kafka-37e4304b-ehemhuy-93c3.aivencloud.com:14010"],
+            brokers: [this.configService.get<string>("KAFKA_BROKER") || ""],
             connectionTimeout: 10_000,
             authenticationTimeout: 10_000,
             ssl: {
                 // cert: "",
-                ca: fs.readFileSync(path.join(process.cwd(), "./ca.pem")),
+                ca: this.configService.get<string>("KAFKA_SSL_CA") || "",
             },
             sasl: {
-                username: "avnadmin",
-                password: "AVNS_VvAZIoJ1L8xJNRWElQE",
+                username:
+                    this.configService.get<string>("KAFKA_SASL_USERNAME") || "",
+                password:
+                    this.configService.get<string>("KAFKA_SASL_PASSWORD") || "",
                 mechanism: "plain",
             },
         });
