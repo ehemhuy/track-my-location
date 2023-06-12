@@ -6,8 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "rspack build --watch",
-    "start": "nodemon dist/main.js",
-    "build": "rspack build"
+    "start": "nest start",
+    "build": "nest build"
   },
   "dependencies": {
     "@nestjs/common": "^9.4.2",
