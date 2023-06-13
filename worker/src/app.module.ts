@@ -4,6 +4,8 @@ import { AppService } from "./app.service";
 import { KafkaModule } from "./kafka/kafka.module";
 import { WorkerModule } from "./worker/worker.module";
 import { ConfigModule } from "@nestjs/config";
+import { RedisModule } from "./redis/redis.module";
+import { MongodbModule } from "./mongodb/mongodb.module";
 
 @Module({
     imports: [
@@ -11,6 +13,8 @@ import { ConfigModule } from "@nestjs/config";
             isGlobal: true,
         }),
         KafkaModule,
+        RedisModule,
+        MongodbModule,
         WorkerModule,
     ],
     controllers: [AppController],
