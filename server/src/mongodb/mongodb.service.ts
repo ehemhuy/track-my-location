@@ -1,6 +1,6 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { MongoClient, Db } from "mongodb";
+import { Collection, MongoClient, Document } from "mongodb";
 
 @Injectable()
 export class MongodbService implements OnModuleInit, OnModuleDestroy {
@@ -20,7 +20,10 @@ export class MongodbService implements OnModuleInit, OnModuleDestroy {
         await this.mongoClient.close(true);
     }
 
-    getInstance(dbName: string): Db {
-        return this.mongoClient.db(dbName);
+    getCollection<TSchema extends Document = Document>(
+        dbName: string,
+        colName: string
+    ): Collection<TSchema> {
+        return this.mongoClient.db(dbName).collection<TSchema>(colName);
     }
 }

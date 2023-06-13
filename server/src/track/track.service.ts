@@ -3,6 +3,7 @@ import { TrackDTO } from "../dto/track.dto";
 import { ProducerService } from "../kafka/producer.service";
 import { RedisService } from "../redis/redis.service";
 import { MongodbService } from "../mongodb/mongodb.service";
+import { Location } from "../entities/location.entity";
 
 @Injectable()
 export class TrackService {
@@ -14,13 +15,16 @@ export class TrackService {
 
     async track(trackDTO: TrackDTO): Promise<void> {
         const redisClient = this.redisService.getInstance();
+        const l: Location = {
+            latitude: trackDTO.latitude,
+            longtitude: trackDTO.longtitude,
+        };
         await Promise.all([
             redisClient.LPUSH("locations", JSON.stringify(trackDTO)),
             this.kafkaProducer.sendMessage(JSON.stringify(trackDTO)),
             this.mongdbService
-                .getInstance("track")
-                .collection("location")
-                .insertOne(trackDTO),
+                .getCollection<Location>("track", "location")
+                .insertOne(l),
         ]);
     }
 
