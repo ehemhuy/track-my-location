@@ -1,9 +1,11 @@
 import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { TrackModule } from "./track/track.module";
 import { KafkaModule } from "./kafka/kafka.module";
-import { ConfigModule } from "@nestjs/config";
+import { RedisModule } from "./redis/redis.module";
+import { TrackModule } from "./track/track.module";
+import { MongodbModule } from "./mongodb/mongodb.module";
 
 @Module({
     imports: [
@@ -12,6 +14,8 @@ import { ConfigModule } from "@nestjs/config";
         }),
         TrackModule,
         KafkaModule,
+        RedisModule,
+        MongodbModule,
     ],
     controllers: [AppController],
     providers: [AppService],
